@@ -1,0 +1,1 @@
+carrouselDiv = document.getElementById("carrossel")
