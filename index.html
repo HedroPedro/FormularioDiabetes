@@ -5,8 +5,8 @@
     <meta http-equiv='X-UA-Compatible' content='IE=edge'>
     <title>Formulario de Diabetes</title>
     <meta name='viewport' content='width=device-width, initial-scale=1'>
-    <link rel='stylesheet' type='text/css' media='screen' href='css/main.css'>
-    <script src='src/main.js' defer></script>
+    <link rel='stylesheet' type='text/css' media='screen' href='src/css/main.css'>
+    <script src='src/scripts/main.js' defer></script>
 </head>
 <body>
     <span><img src=""><h1>Risco de Diabetes</h1></span>
@@ -16,34 +16,69 @@
                 <div>
                     <h2>Informações Pessoais</h2>
                     <div>
-                        Idade: <input type="number" min="0" value="0" id="idade"> anos
+                        Idade: <input type="number" min="0" id="idade"> anos
                     </div>
                     <div>
-                        <h3>Sexo</h3>
-                        <span><input type="radio"> Masculino</span>
-                        <input type="radio"> Feminino
+                        <form id="sexo">
+                            Masculino <input type="radio" name="sexo">
+                            Feminino <input type="radio" name="sexo"> 
+                        </form>
                     </div>
                 </div>
-                <span><input type="radio" class="cintura" value="">1</span>
-                <span><input type="radio" class="cintura">2</span>
-                <span><input type="radio" class="cintura">3</span>
-                
+                <button class="cint" hidden></button>
+                <button class="cint" hidden></button>
+                <button class="cint" hidden></button>
+
+                <form>
+                    Altura em cm: <input type="number" min="0" max="300" id="alt" pattern="[0-9]{1-3}">
+                    Peso: <input type="number" min="0" id="peso" pattern="[0-9]+(,[0-9]{1,2})?">
+                    <input type="button" value="Calcular IMC" id="IMC">
+                </form>
             </div>
             <div>
                 <h2>Hábitos</h2>
-                <input type="text">
-                <input type="text">
-                <input type="text">
+                <form id="att_fisica">
+                    Você realiza atividade física regularmente?
+                    Sim <input type="radio" name="att_fisica">
+                    Não <input type="radio" name="att_fisica">
+                </form>
+                <form id="veg">
+                    Você consome diariamente vegetais, frutas, legumes ou grãos? 
+                    Sim <input type="radio" name="veg">
+                    Não <input type="radio" name="veg">
+                </form>
+                <form id="carn">
+                    Você consome frituras, salgados ou carnes gordas? 
+                    Sim <input type="radio" name="carn">
+                    Não <input type="radio" name="carn">
+                </form>
             </div>
             <div>
                 <h2>Condições de saúde</h2>
-                <input type="text">
-                <input type="text">
+                <form id="glic">
+                    Você já foi diagnosticado com glicose elevada no sangue 
+                    (em exames de saúde, por causa de alguma doença ou durante a gravidez)?
+                    Sim <input type="radio" name="glic">
+                    Não <input type="radio" name="glic">
+                </form>
+                <form id="pres">
+                    Você tem pressão alta ou toma medicamentos para controlá-la? 
+                    Sim <input type="radio" name="pres">
+                    Não <input type="radio" name="pres">
+                </form>
             </div>
             <div>
                 <h2>Genética</h2>
-                <input type="radio">
-                <input type="radio">
+                <form id="p_fam">
+                    Você tem parentes em primeiro grau (pais, irmãos, filhos) com diabetes? 
+                    Sim <input type="radio" name="p_fam">
+                    Não <input type="radio" name="p_fam">
+                </form>
+                <form id="s_fam">
+                    Você tem parentes em segundo grau (avós, tios, primos) com diabetes?
+                    Sim <input type="radio" name="f_fam">
+                    Não <input type="radio" name="f_fam">
+                </form>
             </div>
         </div>
     </div>
