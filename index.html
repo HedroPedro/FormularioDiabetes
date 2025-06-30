@@ -16,28 +16,35 @@
                 <div>
                     <h2>Informações Pessoais</h2>
                     <div>
-                        Idade: <input type="number" min="0" id="idade"> anos
-                    </div>
-                    <div>
-                        <form id="sexo">
+                        Idade: <div>
+                                <label class="error">Insira uma idade</lable>
+                                <input type="number" value="0" min="0" id="idade"> anos
+                            </div>
+                        <div>
                             Masculino <input type="radio" name="sexo">
-                            Feminino <input type="radio" name="sexo"> 
-                        </form>
-                    </div>
+                            Feminino <input type="radio" name="sexo">
+                            <label class="error">Selecione um sexo</lable>
+                        </div>
+                        <div id="cintura">
+                            Cintura: 
+                            <button class="cint"></button>
+                            <button class="cint"></button>
+                            <button class="cint"></button>
+                            <label class="error">Selecione um valor para cintura</label>
+                        </div>
+                    </div>    
                 </div>
-                <button class="cint" hidden></button>
-                <button class="cint" hidden></button>
-                <button class="cint" hidden></button>
-
+            </div>
+            <div hidden>
                 <form>
                     Altura em cm: <input type="number" min="0" max="300" id="alt" pattern="[0-9]{1-3}">
                     Peso: <input type="number" min="0" id="peso" pattern="[0-9]+(,[0-9]{1,2})?">
                     <input type="button" value="Calcular IMC" id="IMC">
                 </form>
             </div>
-            <div>
+            <div hidden>
                 <h2>Hábitos</h2>
-                <form id="att_fisica">
+                <form>
                     Você realiza atividade física regularmente?
                     Sim <input type="radio" name="att_fisica">
                     Não <input type="radio" name="att_fisica">
@@ -53,7 +60,7 @@
                     Não <input type="radio" name="carn">
                 </form>
             </div>
-            <div>
+            <div hidden>
                 <h2>Condições de saúde</h2>
                 <form>
                     Você já foi diagnosticado com glicose elevada no sangue 
@@ -67,7 +74,7 @@
                     Não <input type="radio" name="pres">
                 </form>
             </div>
-            <div>
+            <div hidden>
                 <h2>Genética</h2>
                 <form>
                     Você tem parentes em primeiro grau (pais, irmãos, filhos) com diabetes? 
@@ -80,7 +87,11 @@
                     Não <input type="radio" name="s_fam">
                 </form>
             </div>
-            <button id="calculate">Verificar</button>
+            <div class="buttons">
+                <button type="button" id="bef" hidden>Anterior</button>
+                <button id="next">Proximo</button>
+                <button id="calculate" hidden>Calcular</button>
+            </div>
         </div>
     </div>
 </body>
