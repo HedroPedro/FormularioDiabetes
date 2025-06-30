@@ -21,17 +21,18 @@
                             <label class="error">Insira uma idade</label>
                             <input type="number" value="0" min="0" id="idade">
                         </div>
-                        <div>
-                            Masculino <input type="radio" name="sexo">
-                            Feminino <input type="radio" name="sexo">
-                            <label class="error">Selecione um sexo</lable>
+                        <div id="sexo">
+                            <h3>Sexo</h3>
+                                <label class="error">Selecione um sexo</label>
+                                Masculino <input type="radio" name="sexo">
+                                Feminino <input type="radio" name="sexo">
                         </div>
                         <div id="cintura">
-                            Cintura: 
+                            <h3>Cintura</h3>
+                            <label class="error">Selecione um valor para a cintura</label>
                             <button class="cint"></button>
                             <button class="cint"></button>
                             <button class="cint"></button>
-                            <label class="error">Selecione um valor para cintura</label>
                         </div>
                     </div>    
                 </div>
@@ -87,10 +88,13 @@
                     Sim <input type="radio" name="s_fam">
                     Não <input type="radio" name="s_fam">
                 </form>
+                <div id="resultado">
+                    <button id="go_back">Voltar ao inicio</button>
+                </div>
             </div>
             <div class="buttons">
                 <button type="button" id="bef">Anterior</button>
-                <button id="next">Proximo</button>
+                <button id="next" class="show">Proximo</button>
                 <button id="calculate">Calcular</button>
             </div>
         </div>

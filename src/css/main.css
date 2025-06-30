@@ -21,7 +21,7 @@ h1, h2, h3 {
 
 h3 {
     margin: 0;
-    text-align: center;
+    width: auto;
 }
 
 .main {
@@ -48,13 +48,12 @@ span img {
 }
 
 #resultado {
-    position: relative;
     border: 1px #222;
     color:#155ab6;
     top: 0%;
-    width: 100vw;
-    height: 100vh;
+    padding: 0;
     background-color: #f9f9f9;
+    display: none;
 }
 
 input[type="number"],
@@ -83,6 +82,8 @@ label.error {
     color: #b00020;
     font-size: 0.9rem;
     display: none;
+    font-size: 15px;
+    font-weight: 600;
 }
 
 button {
@@ -200,4 +201,19 @@ input[type="radio"]:focus {
     }
 }
 
+#bef {
+    display: none
+}
 
+#next {
+    display: none;
+}
+
+#calculate {
+    display: none
+}
+
+#sexo {
+    justify-items: center;
+    margin-bottom: 1.25rem;
+}

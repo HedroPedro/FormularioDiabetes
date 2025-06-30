@@ -13,6 +13,7 @@ const score = {
 
 let slide = 0
 const carrouselDiv = document.getElementById("carrossel")
+const cinturaDiv = document.getElementById("cintura")
 const idadeInput = document.getElementById("idade")
 const radioSex = document.getElementsByName("sexo")
 const btnIMC = document.getElementById("IMC")
@@ -26,25 +27,32 @@ const radioPFam = document.getElementsByName("p_fam")
 const radioSFam = document.getElementsByName("s_fam")
 const btnBef = document.getElementById("bef")
 const btnNext = document.getElementById("next")
+const btnGoBack= document.getElementById("go_back")
 
-function setCintura(array) {
+function buildMessage(prob, risco) {
+    const div = document.getElementById("resultado")
+    div.className = "show"
+    div.innerHTML = `<h2>${prob}</h2><span>${risco}</span>${div.innerHTML}`
+}
+
+function setCintura(elem, array) {
     const btnsCint = document.getElementsByClassName("cint")
-    document.getElementById("cintura").className = "show"
-
+    cinturaDiv.className = "show"
 
     for (let i = 0; i < btnsCint.length; i++) {
         const btn = btnsCint[i]
         btn.textContent = array.shift()
         btn.addEventListener("click", () => score["cintura"] = i === 0 ? 0 : i + 2)
     }
+
+    elem.parentElement.getElementsByClassName("error")[0].className = "error"
 }
 
 const setErrorMessage = (el) => {
     return function() {
         for(const node of el.childNodes) {
-            if (node.className === "error") {
-                node.hidden = false
-            }
+            if (node.className === "error")
+                node.className = node.className + " show"
         }
     }
 }
@@ -53,18 +61,17 @@ const checkInfoPerson = () => {
     let checked = false
     const errorMessages = []
 
-    if (!idadeInput.value) errorMessages.push(idadeInput.parentElement)
+    if (idadeInput.value == 0 || !idadeInput.value) errorMessages.push(setErrorMessage(idadeInput.parentElement))
 
-    for (const radio of radioSex.values()) {
+    for (const radio of radioSex.values())
         if (checked = radio.checked) break
-        
-    }
 
-    if (!checked) {
+    if (!checked)
         errorMessages.push(setErrorMessage(radioSex.item(0).parentElement))
-    }
 
-    return [(!idadeInput.value || !checked), errorMessages]
+    if (score["cintura"] === 0) errorMessages.push(setErrorMessage(cinturaDiv))
+
+    return [(!idadeInput.value || idadeInput.value === 0 || !checked || score["cintura"] === 0), errorMessages]
 }
 
 const checkOtherData = () => {
@@ -88,7 +95,8 @@ const checkFunctions = [checkInfoPerson, checkOtherData, checkHabits, checkHealt
 
 idadeInput.addEventListener("input", (ev) => {
     const idade = ev.target.value
-    
+    ev.target.parentElement.getElementsByClassName("error")[0].className = "error"
+
     if (idade < 45) {
         return
     }
@@ -106,8 +114,8 @@ idadeInput.addEventListener("input", (ev) => {
     score["idade"] = 4
 })
 
-radioSex[0].addEventListener("click", () => setCintura(["Menos que 94 cm","Entre 94 e 102 cm", "Mais que 102 cm"]))
-radioSex[1].addEventListener("click", () => setCintura(["Menos que 80 cm","Entre 80 e 88 cm", "Mais que 88 cm"]))
+radioSex[0].addEventListener("click", (ev) => setCintura(ev.target, ["Menos que 94 cm","Entre 94 e 102 cm", "Mais que 102 cm"]))
+radioSex[1].addEventListener("click", (ev) => setCintura(ev.target, ["Menos que 80 cm","Entre 80 e 88 cm", "Mais que 88 cm"]))
 btnIMC.addEventListener("click", () => {
     const alturaInput = document.getElementById("alt")
     const pesoInput = document.getElementById("peso")
@@ -129,8 +137,8 @@ btnIMC.addEventListener("click", () => {
     }
 
     score.imc = 3
-    return
 })
+
 
 btnNext.addEventListener("click", () => {
     const bef = slide
@@ -146,10 +154,10 @@ btnNext.addEventListener("click", () => {
     slide = Math.min(slide+1, 4)
 
 
-    if (slide !== 0) btnBef.hidden = false
+    if (slide !== 0) btnBef.className = "show"
     if (slide === 4) {
-        btnNext.hidden = true
-        btnCalcular.hidden = false
+        btnNext.className = ""
+        btnCalcular.className = "show"
     }
 
     const childNodes = carrouselDiv.children
@@ -162,23 +170,15 @@ btnBef.addEventListener("click", () => {
     slide = Math.max(0, slide-1)
     const childNodes = carrouselDiv.children
 
-    if (slide === 0) btnBef.hidden = true
+    if (slide === 0) btnBef.className = ""
     if (slide !== 4) {
-        btnNext.hidden = false
-        btnCalcular.hidden = true
+        btnNext.className = "show"
+        btnCalcular.className = ""
     }
 
     childNodes[bef].hidden = true
     childNodes[slide].hidden = false
 })
-
-function buildMessage(risco, probabilidade) {
-    const div = document.createElement("div")
-    div.innerHTML = `<h2>${risco}.</h2>
-                    <span>${probabilidade}</span>`  
-    div.id = "resultado"
-    document.body.appendChild(div)
-}
 
 btnCalcular.addEventListener("click", () => {
     let soma = 0
@@ -210,16 +210,40 @@ btnCalcular.addEventListener("click", () => {
     buildMessage("Risco muito alto", "Probabilidade 1 em 2")
 })
 
+btnGoBack.addEventListener("click", () => {
+    for(const form of document.forms) {
+        form.reset()
+    }
+    
+    btnNext.className = "show"
+    btnCalcular.className = ""
+    btnBef.className = ""
+    const childNodes = carrouselDiv.children
+    childNodes[slide].hidden = true
+    childNodes[0].hidden = false
+    slide = 0
+})
+
 radioAttFisica.forEach((elem, key) => {
-    elem.addEventListener("click", () => score["att_fisica"] = key<<1)
+    elem.addEventListener("click", () => {
+        score["att_fisica"] = key<<1
+
+        elem.parentElement.getElementsByClassName("error")[0].className = "error"
+    })
 })
 
 radioVeg.forEach((elem, key) => {
-    elem.addEventListener("click", () => score["veg"] = key)
+    elem.addEventListener("click", () => {
+        score["veg"] = key
+         elem.parentElement.getElementsByClassName("error")[0].className = "error"
+    })
 })
 
 radioCarn.forEach((elem, key) => {
-    elem.addEventListener("click", () => score["carne"] = key)
+    elem.addEventListener("click", () => {
+        score["carne"] = key
+        elem.parentElement.getElementsByClassName("error")[0].className = "error"
+    })
 })
 
 radioGlic.forEach((elem, key) => {
