@@ -71,13 +71,20 @@ const checkOtherData = () => {
     return false
 }
 
-const checkHabits = () => {}
+const checkHabits = () => {
+    return false
+}
 
-const checkHealthCons = () => {}
+const checkHealthCons = () => {
+    return false
+}
 
-const checkGen = () => {}
+const checkGen = () => {
+    return false
+}
 
-const checkFunctions = [checkInfoPerson, checkOtherData]
+
+const checkFunctions = [checkInfoPerson, checkOtherData, checkHabits, checkHealthCons, checkGen]
 
 idadeInput.addEventListener("input", (ev) => {
     const idade = ev.target.value
