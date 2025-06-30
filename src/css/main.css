@@ -4,17 +4,24 @@ html {
 }
 
 body {
-    margin: 0;
+    margin-top: 25%;
     padding: 0;
     font-family: sans-serif;
     background-color: #f9f9f9;
     color: #222;
+    height: 100vh;
 }
 
-h1, h2 {
+h1, h2, h3 {
     margin-top: 0;
     color: #1a73e8;
     font-weight: 600;
+    text-align: center;
+}
+
+h3 {
+    margin: 0;
+    text-align: center;
 }
 
 .main {
@@ -28,11 +35,26 @@ span {
     flex-direction: column;
     align-items: center;
     margin-bottom: 1rem;
+
 }
 
 span img {
     max-width: 100px;
     height: auto;
+}
+
+#idade-input-div {
+    padding: 5% 0
+}
+
+#resultado {
+    position: relative;
+    border: 1px #222;
+    color:#155ab6;
+    top: 0%;
+    width: 100vw;
+    height: 100vh;
+    background-color: #f9f9f9;
 }
 
 input[type="number"],
@@ -60,6 +82,7 @@ label {
 label.error {
     color: #b00020;
     font-size: 0.9rem;
+    display: none;
 }
 
 button {
@@ -97,7 +120,7 @@ div#carrossel > div {
 }
 
 .show {
-    display: block;
+    display: block !important;
 }
 
 .cint {
@@ -121,6 +144,30 @@ form {
     margin-bottom: 1rem;
 }
 
+input[type="radio"] {
+    appearance: none; /* Remove estilo padrão */
+    -webkit-appearance: none;
+    background-color: #fff;
+    border: 2px solid #1a73e8;
+    width: 1.4em;
+    height: 1.4em;
+    border-radius: 50%;
+    margin-right: 0.5em;
+    vertical-align: middle;
+    cursor: pointer;
+    transition: border 0.3s, background-color 0.3s;
+}
+
+input[type="radio"]:checked {
+    background-color: #1a73e8;
+    border-color: #1a73e8;
+}
+
+input[type="radio"]:focus {
+    outline: 3px solid #1a73e8;
+    outline-offset: 2px;
+}
+
 @media (min-width: 600px) {
     span {
         flex-direction: row;
@@ -136,6 +183,14 @@ form {
     input[type="button"],
     button {
         width: auto;
+    }
+
+    input[type="radio"] {
+        width: 1.2em;
+        height: 1.2em;
+    }
+    label.radio-label {
+        font-size: 1.1rem;
     }
 
     .cint {

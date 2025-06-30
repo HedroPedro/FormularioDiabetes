@@ -31,6 +31,7 @@ function setCintura(array) {
     const btnsCint = document.getElementsByClassName("cint")
     document.getElementById("cintura").className = "show"
 
+
     for (let i = 0; i < btnsCint.length; i++) {
         const btn = btnsCint[i]
         btn.textContent = array.shift()
@@ -164,37 +165,42 @@ btnBef.addEventListener("click", () => {
     childNodes[slide].hidden = false
 })
 
+function buildMessage(risco, probabilidade) {
+    const div = document.createElement("div")
+    div.innerHTML = `<h2>${risco}.</h2>
+                    <span>${probabilidade}</span>`  
+    div.id = "resultado"
+    document.body.appendChild(div)
+}
+
 btnCalcular.addEventListener("click", () => {
     let soma = 0
-
     for (const key in score) {
         soma += score[key]
     }
 
-    alert(`Valor total: ${soma}`)
-
     if(soma < 7) {
-        alert("Risco Baixo. Probabilidade 1 em 100")
+        buildMessage("Risco Baixo", "Probabilidade 1 em 100")
         return  
     }
 
     if(soma < 12) {
-        alert("Risco Pouco elevado. Probabilidade 1 em 25")
+        buildMessage("Risco Pouco elevado", "Probabilidade 1 em 25")
         return
     }
 
 
     if (soma < 15) {
-        alert("Risco Moderado. Probabilidde 1 em 6")
+        buildMessage("Risco Moderado", "Probabilidde 1 em 6")
         return
     }
 
     if(soma < 21) {
-        alert("Risco Alto. Probabilidade 1 em 3")
+        buildMessage("Risco Alto", "Probabilidade 1 em 3")
         return
     }
 
-    alert("Risco muito alto. Probabilidade 1 em 2")
+    buildMessage("Risco muito alto", "Probabilidade 1 em 2")
 })
 
 radioAttFisica.forEach((elem, key) => {

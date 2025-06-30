@@ -9,17 +9,18 @@
     <script src='src/scripts/main.js' defer></script>
 </head>
 <body>
-    <span><img src=""><h1>Risco de Diabetes</h1></span>
     <div class="main">
+        <span><img src=""><h1>Risco de Diabetes</h1></span>
         <div id="carrossel">
             <div>
                 <div>
                     <h2>Informações Pessoais</h2>
                     <div>
-                        Idade: <div>
-                                <label class="error">Insira uma idade</lable>
-                                <input type="number" value="0" min="0" id="idade"> anos
-                            </div>
+                        <h3>Idade</h3>
+                        <div id="idade-input-div">
+                            <label class="error">Insira uma idade</label>
+                            <input type="number" value="0" min="0" id="idade">
+                        </div>
                         <div>
                             Masculino <input type="radio" name="sexo">
                             Feminino <input type="radio" name="sexo">
@@ -88,9 +89,9 @@
                 </form>
             </div>
             <div class="buttons">
-                <button type="button" id="bef" hidden>Anterior</button>
+                <button type="button" id="bef">Anterior</button>
                 <button id="next">Proximo</button>
-                <button id="calculate" hidden>Calcular</button>
+                <button id="calculate">Calcular</button>
             </div>
         </div>
     </div>
