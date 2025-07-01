@@ -1,14 +1,14 @@
 const score = {
     "idade": 0,
-    "cintura": 0,
+    "cintura": -1,
     "imc": 0,
-    "att_fisica": 0,
-    "veg": 0,
-    "carne": 0,
-    "glic": 0,
-    "pres": 0,
-    "pFam": 0,
-    "sFam": 0
+    "att_fisica": -1,
+    "veg": -1,
+    "carne": -1,
+    "glic": -1,
+    "pres": -1,
+    "pFam": -1,
+    "sFam": -1
 }
 
 let slide = 0
@@ -27,13 +27,18 @@ const radioPFam = document.getElementsByName("p_fam")
 const radioSFam = document.getElementsByName("s_fam")
 const btnBef = document.getElementById("bef")
 const btnNext = document.getElementById("next")
-const btnGoBack= document.getElementById("go_back")
+const btnGoBack= document.getElementById("goback")
+const imcDiv = document.getElementById("imc-div")
 
 function buildMessage(prob, risco) {
     const div = document.getElementById("resultado")
     div.className = "show"
-    div.innerHTML = `<h2>${prob}</h2><span>${risco}</span>${div.innerHTML}`
+    div.child
 }
+
+btnGoBack.addEventListener("click", () => {
+        console.log("Oi")
+})
 
 function setCintura(elem, array) {
     const btnsCint = document.getElementsByClassName("cint")
@@ -71,7 +76,7 @@ const checkInfoPerson = () => {
 
     if (score["cintura"] === 0) errorMessages.push(setErrorMessage(cinturaDiv))
 
-    return [(!idadeInput.value || idadeInput.value === 0 || !checked || score["cintura"] === 0), errorMessages]
+    return [(!idadeInput.value || idadeInput.value === 0 || !checked || score["cintura"] === -1), errorMessages]
 }
 
 const checkOtherData = () => {
@@ -117,21 +122,22 @@ idadeInput.addEventListener("input", (ev) => {
 radioSex[0].addEventListener("click", (ev) => setCintura(ev.target, ["Menos que 94 cm","Entre 94 e 102 cm", "Mais que 102 cm"]))
 radioSex[1].addEventListener("click", (ev) => setCintura(ev.target, ["Menos que 80 cm","Entre 80 e 88 cm", "Mais que 88 cm"]))
 btnIMC.addEventListener("click", () => {
+    
     const alturaInput = document.getElementById("alt")
     const pesoInput = document.getElementById("peso")
 
     const altura = alturaInput.value/100
     const peso = pesoInput.value
 
+    
     const imc = Math.round(peso/(altura*altura))
+    imcDiv.lastElementChild.innerHTML = imc.toString()
+    imcDiv.className = "show"
 
-    alert(`Seu IMC é ${imc}`)
-
-    if (imc < 25) {
+    if (imc < 25)
         return
-    }
 
-    if (imc < 31) {
+    if (imc <= 30) {
         score.imc = 1
         return
     }
@@ -208,20 +214,6 @@ btnCalcular.addEventListener("click", () => {
     }
 
     buildMessage("Risco muito alto", "Probabilidade 1 em 2")
-})
-
-btnGoBack.addEventListener("click", () => {
-    for(const form of document.forms) {
-        form.reset()
-    }
-    
-    btnNext.className = "show"
-    btnCalcular.className = ""
-    btnBef.className = ""
-    const childNodes = carrouselDiv.children
-    childNodes[slide].hidden = true
-    childNodes[0].hidden = false
-    slide = 0
 })
 
 radioAttFisica.forEach((elem, key) => {

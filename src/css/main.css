@@ -4,7 +4,7 @@ html {
 }
 
 body {
-    margin-top: 25%;
+    margin-top: 15%;
     padding: 0;
     font-family: sans-serif;
     background-color: #f9f9f9;
@@ -24,6 +24,11 @@ h3 {
     width: auto;
 }
 
+#logo {
+    display: flex;
+    justify-items: center;
+}
+
 .main {
     padding: 1rem;
     max-width: 600px;
@@ -31,8 +36,8 @@ h3 {
 }
 
 span {
-    display: flex;
-    flex-direction: column;
+    display: block;
+    margin-top: 0.5rem;
     align-items: center;
     margin-bottom: 1rem;
 
@@ -40,11 +45,21 @@ span {
 
 span img {
     max-width: 100px;
-    height: auto;
+    height: 10%;
+    align-self: center;
 }
 
 #idade-input-div {
     padding: 5% 0
+}
+
+#imc-div {
+    display: none
+}
+
+#imc-div span {
+    color: #155ab6;
+    font-size: 1.2em;
 }
 
 #resultado {
@@ -73,12 +88,8 @@ input[type="radio"] {
     margin-right: 0.5rem;
 }
 
-label {
-    display: block;
-    margin-top: 0.5rem;
-}
 
-label.error {
+span.error {
     color: #b00020;
     font-size: 0.9rem;
     display: none;
