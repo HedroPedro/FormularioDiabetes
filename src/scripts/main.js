@@ -37,7 +37,7 @@ function buildMessage(prob, risco) {
 }
 
 btnGoBack.addEventListener("click", () => {
-        console.log("Oi")
+    location.reload()
 })
 
 function setCintura(elem, array) {

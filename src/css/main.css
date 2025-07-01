@@ -47,6 +47,7 @@ span img {
     max-width: 100px;
     height: 10%;
     align-self: center;
+
 }
 
 #idade-input-div {
@@ -207,8 +208,17 @@ input[type="radio"]:focus {
 
     .cint {
         width: auto;
-        margin-right: 0.5rem;
-        
+        margin-right: 0.5rem;    
+    }
+
+    #logo {
+        display: block;
+    }
+
+    span img {
+        margin: auto;
+        width: 200%;
+        height: 200%;
     }
 }
 
