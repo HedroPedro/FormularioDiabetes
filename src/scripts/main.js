@@ -33,7 +33,8 @@ const imcDiv = document.getElementById("imc-div")
 function buildMessage(prob, risco) {
     const div = document.getElementById("resultado")
     div.className = "show"
-    div.child
+    div.firstElementChild.innerHTML = prob
+    div.children[1].innerHTML = risco
 }
 
 btnGoBack.addEventListener("click", () => {
