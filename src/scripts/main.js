@@ -1,7 +1,7 @@
 const score = {
-    "idade": 0,
+    "idade": -1,
     "cintura": -1,
-    "imc": 0,
+    "imc": -1,
     "att_fisica": -1,
     "veg": -1,
     "carne": -1,
@@ -29,6 +29,8 @@ const btnBef = document.getElementById("bef")
 const btnNext = document.getElementById("next")
 const btnGoBack= document.getElementById("goback")
 const imcDiv = document.getElementById("imc-div")
+const alturaInput = document.getElementById("alt")
+const pesoInput = document.getElementById("peso")
 
 function buildMessage(prob, risco) {
     const div = document.getElementById("resultado")
@@ -37,71 +39,102 @@ function buildMessage(prob, risco) {
     div.children[1].innerHTML = risco
 }
 
-btnGoBack.addEventListener("click", () => {
-    location.reload()
-})
+btnGoBack.addEventListener("click", () => location.reload())
 
-function setCintura(elem, array) {
+function setCintura(array) {
     const btnsCint = document.getElementsByClassName("cint")
-    cinturaDiv.className = "show"
 
     for (let i = 0; i < btnsCint.length; i++) {
         const btn = btnsCint[i]
-        btn.textContent = array.shift()
-        btn.addEventListener("click", () => score["cintura"] = i === 0 ? 0 : i + 2)
+        btn.textContent = array[i]
+        btn.addEventListener("click", () => {
+            score["cintura"] = i === 0 ? 0 : i + 2
+        })
     }
 
-    elem.parentElement.getElementsByClassName("error")[0].className = "error"
+    removeErrorMessage(cinturaDiv)
+    removeErrorMessage(document.getElementById("sexo"))
+    cinturaDiv.className = "show"
 }
 
-const setErrorMessage = (el) => {
-    return function() {
-        for(const node of el.childNodes) {
-            if (node.className === "error")
-                node.className = node.className + " show"
-        }
-    }
+function setErrorMessage(el) {
+    el.getElementsByClassName("error")[0].className += " show"
+}
+
+function removeErrorMessage(el) {
+    el.getElementsByClassName("error")[0].className = "error"
 }
 
 const checkInfoPerson = () => {
     let checked = false
-    const errorMessages = []
+    const isNotIdadeOkay = idadeInput.value == 0 || !idadeInput.value
 
-    if (idadeInput.value == 0 || !idadeInput.value) errorMessages.push(setErrorMessage(idadeInput.parentElement))
+    if (isNotIdadeOkay) setErrorMessage(idadeInput.parentElement)
 
     for (const radio of radioSex.values())
         if (checked = radio.checked) break
 
-    if (!checked)
-        errorMessages.push(setErrorMessage(radioSex.item(0).parentElement))
+    if (!checked) setErrorMessage(radioSex.item(0).parentElement)
 
-    if (score["cintura"] === 0) errorMessages.push(setErrorMessage(cinturaDiv))
+    if (score["cintura"] === -1 && "show" === cinturaDiv.className) setErrorMessage(cinturaDiv)
 
-    return [(!idadeInput.value || idadeInput.value === 0 || !checked || score["cintura"] === -1), errorMessages]
+    return isNotIdadeOkay || !checked || score["cintura"] === -1
 }
 
 const checkOtherData = () => {
-    return false
+    const bool = isNotIMCOkay()
+    
+    if (!bool && score["imc"] === -1) btnIMC.click()
+    
+    return bool
 }
 
-const checkHabits = () => {
-    return false
+function checkHabits () {
+    const att = Array.from(radioAttFisica.values())
+    .reduce((prev, cur) => prev ||= cur.checked, false)
+    
+    const eatVegs = Array.from(radioVeg.values())
+    .reduce((prev, cur) => prev ||= cur.checked, false)
+    
+    const eatCarn = Array.from(radioCarn.values())
+    .reduce((prev, cur) => prev ||= cur.checked, false)
+
+
+
+    if(!att) setErrorMessage(radioAttFisica[0].parentElement)
+    
+    if(!eatVegs) setErrorMessage(radioVeg[0].parentElement)
+
+    if(!eatCarn) setErrorMessage(radioCarn[0].parentElement)
+
+    return !(att && eatVegs && eatCarn)
 }
 
 const checkHealthCons = () => {
-    return false
+    const glic = Array.from(radioGlic.values()).reduce((prev, cur) => prev ||= cur.checked, false)
+    const pres = Array.from(radioPres.values()).reduce((prev, cur) => prev ||= cur.checked, false)
+
+    if(!glic) setErrorMessage(radioGlic[0].parentElement)
+    
+    if(!pres) setErrorMessage(radioPres[0].parentElement)
+
+    return !(glic && pres)
 }
 
 const checkGen = () => {
-    return false
+    const pFam = Array.from(radioPFam.values()).reduce((prev, cur) => prev ||= cur.checked, false)
+    const sFam = Array.from(radioSFam.values()).reduce((prev, cur) => prev ||= cur.checked, false)
+
+    if(!pFam) setErrorMessage(radioPFam[0].parentElement)
+
+    if(!sFam) setErrorMessage(radioSFam[0].parentElement)
+
+    return !(pFam && sFam)
 }
-
-
-const checkFunctions = [checkInfoPerson, checkOtherData, checkHabits, checkHealthCons, checkGen]
 
 idadeInput.addEventListener("input", (ev) => {
     const idade = ev.target.value
-    ev.target.parentElement.getElementsByClassName("error")[0].className = "error"
+    removeErrorMessage(ev.target.parentElement)
 
     if (idade < 45) {
         return
@@ -120,25 +153,46 @@ idadeInput.addEventListener("input", (ev) => {
     score["idade"] = 4
 })
 
-radioSex[0].addEventListener("click", (ev) => setCintura(ev.target, ["Menos que 94 cm","Entre 94 e 102 cm", "Mais que 102 cm"]))
-radioSex[1].addEventListener("click", (ev) => setCintura(ev.target, ["Menos que 80 cm","Entre 80 e 88 cm", "Mais que 88 cm"]))
-btnIMC.addEventListener("click", () => {
+function isNotIMCOkay() {
+    let isNotOkay = !((alturaInput.value || alturaInput.value === '0')  && (pesoInput.value || pesoInput.value === '0'));
     
-    const alturaInput = document.getElementById("alt")
-    const pesoInput = document.getElementById("peso")
+    if (!alturaInput.value) 
+        setErrorMessage(alturaInput.parentElement)
+
+    if (!pesoInput.value)
+        setErrorMessage(pesoInput.parentElement)
+
+    return isNotOkay
+}
+
+const checkFunctions = [checkInfoPerson, checkOtherData, checkHabits, checkHealthCons]
+
+const cinturaObj = {
+    0: ["Menos que 94 cm","Entre 94 e 101 cm", "Mais que 101 cm"],
+    1: ["Menos que 80 cm","Entre 80 e 88 cm", "Mais que 88 cm"]}
+
+radioSex.forEach((el, k) => {el.addEventListener("click", () => setCintura(cinturaObj[k]))})
+
+alturaInput.addEventListener("input", (ev) => removeErrorMessage(ev.target.parentElement))
+
+pesoInput.addEventListener("input", (ev) => removeErrorMessage(ev.target.parentElement))
+
+btnIMC.addEventListener("click", () => {
+    if(isNotIMCOkay()) return
 
     const altura = alturaInput.value/100
     const peso = pesoInput.value
-
     
     const imc = Math.round(peso/(altura*altura))
     imcDiv.lastElementChild.innerHTML = imc.toString()
     imcDiv.className = "show"
 
-    if (imc < 25)
+    if (imc < 25) {
+        score.imc = 0
         return
+    }
 
-    if (imc <= 30) {
+    if (imc < 30) {
         score.imc = 1
         return
     }
@@ -146,20 +200,18 @@ btnIMC.addEventListener("click", () => {
     score.imc = 3
 })
 
+function swap(children, toHide, toShow) {
+    children[toHide].className = "hidden"
+    children[toShow].className = ""
+}
 
 btnNext.addEventListener("click", () => {
     const bef = slide
     const results = checkFunctions[slide]()
 
-    if (results[0]) {
-        for(const func of results[1]) {
-            func()
-        }
-        return
-    }
+    if (results) return
 
     slide = Math.min(slide+1, 4)
-
 
     if (slide !== 0) btnBef.className = "show"
     if (slide === 4) {
@@ -167,15 +219,12 @@ btnNext.addEventListener("click", () => {
         btnCalcular.className = "show"
     }
 
-    const childNodes = carrouselDiv.children
-    childNodes[bef].hidden = true
-    childNodes[slide].hidden = false
+    swap(carrouselDiv.children, bef, slide)
 })
 
 btnBef.addEventListener("click", () => {
     const bef = slide
     slide = Math.max(0, slide-1)
-    const childNodes = carrouselDiv.children
 
     if (slide === 0) btnBef.className = ""
     if (slide !== 4) {
@@ -183,15 +232,19 @@ btnBef.addEventListener("click", () => {
         btnCalcular.className = ""
     }
 
-    childNodes[bef].hidden = true
-    childNodes[slide].hidden = false
+    swap(carrouselDiv.children, bef, slide)
 })
 
 btnCalcular.addEventListener("click", () => {
     let soma = 0
-    for (const key in score) {
+
+    if (checkGen()) return
+
+    btnBef.classList = []
+    btnCalcular.classList = [] 
+
+    for (const key in score)
         soma += score[key]
-    }
 
     if(soma < 7) {
         buildMessage("Risco Baixo", "Probabilidade 1 em 100")
@@ -220,37 +273,48 @@ btnCalcular.addEventListener("click", () => {
 radioAttFisica.forEach((elem, key) => {
     elem.addEventListener("click", () => {
         score["att_fisica"] = key<<1
-
-        elem.parentElement.getElementsByClassName("error")[0].className = "error"
+        removeErrorMessage(elem.parentElement)
     })
 })
 
 radioVeg.forEach((elem, key) => {
     elem.addEventListener("click", () => {
         score["veg"] = key
-         elem.parentElement.getElementsByClassName("error")[0].className = "error"
+        removeErrorMessage(elem.parentElement)
     })
 })
 
 radioCarn.forEach((elem, key) => {
     elem.addEventListener("click", () => {
         score["carne"] = key
-        elem.parentElement.getElementsByClassName("error")[0].className = "error"
+        removeErrorMessage(elem.parentElement)
     })
 })
 
 radioGlic.forEach((elem, key) => {
-    elem.addEventListener("click", () => score["glic"] = key === 0 ? 5 : 0)
+    elem.addEventListener("click", () => {
+        score["glic"] = key === 0 ? 5 : 0
+        removeErrorMessage(elem.parentElement)
+    })
 })
 
 radioPres.forEach((elem, key) => {
-    elem.addEventListener("click", () => score["pres"] = key === 0 ? 2 : 0)
+    elem.addEventListener("click", () => {
+        score["pres"] = key === 0 ? 2 : 0
+        removeErrorMessage(elem.parentElement)
+    })
 })
 
 radioPFam.forEach((elem, key) => {
-    elem.addEventListener("click", () => score["pFam"] = key === 0 ? 5 : 0)
+    elem.addEventListener("click", () => {
+        score["pFam"] = key === 0 ? 5 : 0
+        removeErrorMessage(elem.parentElement)
+    })
 })
 
 radioSFam.forEach((elem, key) => {
-    elem.addEventListener("click", () => score["sFam"] = key === 0 ? 3 : 0)
+    elem.addEventListener("click", () => {
+        score["sFam"] = key === 0 ? 3 : 0
+        removeErrorMessage(elem.parentElement)
+    })
 })

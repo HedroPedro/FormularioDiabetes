@@ -10,8 +10,8 @@
     <script src='src/scripts/main.js' defer></script>
 </head>
 <body>
+    <header><span id="logo"><img src="src/imgs/logo.png"><h1>Risco de Diabetes</h1></span></header>
     <div class="main">
-        <span id="logo"><img src="src/imgs/logo.png"><h1>Risco de Diabetes</h1></span>
         <div id="carrossel">
             <div>
                 <div>
@@ -38,68 +38,72 @@
                     </div>    
                 </div>
             </div>
-            <div hidden>
+            <div class="hidden">
                 <form>
                     <div>
+                        <h3>Altura em CM</h3>
                         <span class="error">Digite sua altura em centimetros</span>
-                        Altura em cm: <input type="number" min="0" max="300" id="alt" pattern="[0-9]{1-3}">
+                        <input type="number" min="0" max="300" id="alt" pattern="[0-9]{1-3}">
                         </div>
-                    Peso: <input type="number" min="0" id="peso" pattern="[0-9]+(,[0-9]{1,2})?">
+                    <div>
+                        <h3>Peso em KG</h3>
+                        <span class="error">Digite seu peso em KG</span>
+                        <input type="number" min="0" id="peso" pattern="[0-9]+(,[0-9]{1,2})?">
                     <input type="button" value="Calcular IMC" id="IMC">
+                    </div>
                 </form>
                 <div id="imc-div">
                     <h3>Seu IMC é</h3>
-                    <span></span>
+                    <span id="imc-result"></span>
                 </div>
             </div>
-            <div hidden>
+            <div class="hidden">
                 <h2>Hábitos</h2>
                 <form>
-                    <span class="error">Preencha essa pergunta</span>
                     <div>Você realiza atividade física regularmente?</div>
+                    <span class="error">Preencha essa pergunta</span>
                     Sim <input type="radio" name="att_fisica">
                     Não <input type="radio" name="att_fisica">
                 </form>
                 <form>
-                    <span class="error">Preencha essa pergunta</span>
                     <div>Você consome diariamente vegetais, frutas, legumes ou grãos?</div>
+                    <span class="error">Preencha essa pergunta</span>
                     Sim <input type="radio" name="veg">
                     Não <input type="radio" name="veg">
                 </form>
                 <form>
+                    <div>Você consome frituras, salgados ou carnes gordas?</div>
                     <span class="error">Preencha essa pergunta</span>
-                    <div>Você consome frituras, salgados ou carnes gordas? </div>
                     Sim <input type="radio" name="carn">
                     Não <input type="radio" name="carn">
                 </form>
             </div>
-            <div hidden>
+            <div class="hidden">
                 <h2>Condições de saúde</h2>
                 <form>
+                    <div>Você já foi diagnosticado com glicose elevada no sangue (em exames de saúde, por causa de alguma doença ou durante a gravidez)?</div>
                     <span class="error">Preencha essa pergunta</span>
-                    <div>Você já foi diagnosticado com glicose elevada no sangue 
-                    (em exames de saúde, por causa de alguma doença ou durante a gravidez)?</div>
                     Sim <input type="radio" name="glic">
                     Não <input type="radio" name="glic">
                 </form>
                 <form>
-                    <span class="error">Preencha essa pergunta</span>
                     <div>Você tem pressão alta ou toma medicamentos para controlá-la?</div>
+                    <span class="error">Preencha essa pergunta</span>
                     Sim <input type="radio" name="pres">
                     Não <input type="radio" name="pres">
                 </form>
             </div>
-            <div hidden>
+            <div class="hidden">
                 <h2>Genética</h2>
                 <form>
-                    <span class="error">Preencha essa pergunta</span>
                     <div>Você tem parentes em primeiro grau (pais, irmãos, filhos) com diabetes?</div>
+                    <span class="error">Preencha essa pergunta</span>
                     Sim <input type="radio" name="p_fam">
                     Não <input type="radio" name="p_fam">
                 </form>
                 <form>
-                    <span class="error">Preencha essa pergunta</span>
                     <div>Você tem parentes em segundo grau (avós, tios, primos) com diabetes?</div>
+                    <span class="error">Preencha essa pergunta</span>
                     Sim <input type="radio" name="s_fam">
                     Não <input type="radio" name="s_fam">
                 </form>

@@ -72,6 +72,14 @@ span img {
     display: none;
 }
 
+input[type="number"]::-webkit-inner-spin-button,
+input[type="number"]::-webkit-outer-spin-button {
+    appearance: none;
+    margin: 0;
+    padding: 0;
+    -webkit-appearance: none;
+}
+
 input[type="number"],
 input[type="button"],
 button {
@@ -89,6 +97,9 @@ input[type="radio"] {
     margin-right: 0.5rem;
 }
 
+.hidden {
+    display: none;
+}
 
 span.error {
     color: #b00020;
@@ -158,7 +169,7 @@ form {
 }
 
 input[type="radio"] {
-    appearance: none; /* Remove estilo padrão */
+    appearance: none;
     -webkit-appearance: none;
     background-color: #fff;
     border: 2px solid #1a73e8;
@@ -237,4 +248,13 @@ input[type="radio"]:focus {
 #sexo {
     justify-items: center;
     margin-bottom: 1.25rem;
+}
+
+#imc-result {
+    text-align: center;
+}
+
+#resultado>span {
+    text-align: center;
+    font-weight: 500;
 }
