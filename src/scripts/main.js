@@ -12,6 +12,7 @@ const score = {
 }
 
 let slide = 0
+const spreadsheetId = "17FETyiGmSvzb4x_-YoRZfYfCpZYSYkpWLl8xw2JyzNM"
 const carrouselDiv = document.getElementById("carrossel")
 const cinturaDiv = document.getElementById("cintura")
 const idadeInput = document.getElementById("idade")
@@ -318,3 +319,7 @@ radioSFam.forEach((elem, key) => {
         removeErrorMessage(elem.parentElement)
     })
 })
+
+fetch("https://sheets.googleapis.com/v4/spreadsheets/17FETyiGmSvzb4x_-YoRZfYfCpZYSYkpWLl8xw2JyzNM")
+    .then(res => res.json())
+    .then(resp => console.log)
