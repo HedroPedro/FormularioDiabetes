@@ -322,4 +322,4 @@ radioSFam.forEach((elem, key) => {
 
 fetch("https://sheets.googleapis.com/v4/spreadsheets/17FETyiGmSvzb4x_-YoRZfYfCpZYSYkpWLl8xw2JyzNM")
     .then(res => res.json())
-    .then(resp => console.log)
+    .then(resp => console.log(resp))
