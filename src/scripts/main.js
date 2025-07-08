@@ -317,13 +317,13 @@ btnCalcular.addEventListener("click", () => {
 
 function buildMessage(prob, risco) {
     persistObj["Risco"] = risco
-    fetch('https://script.google.com/macros/s/AKfycbyrRc3cxXpUWdvSGokxx9Dg6Oiwmf2XDsIKNJg37FCPZh3wRadz9xxKNOwtEgkabXmh/exec',{
+    fetch('https://script.google.com/macros/s/AKfycbzjqRFlBlue0zVKpYqbYmDX4Vi7Ru3ElRvh_0JVm9gNwTRwXUug7Xg0Yh_K19J-aG8E/exec',{
         "method": "POST",
         "headers": {
-            "Content-Type" : "application/json"
+            "Content-Type" : "text/plain;charset=utf-8'"
         },
         "body": JSON.stringify(persistObj)
-    }).catch(err => console.error)
+    }).catch(err => console.error(err))
     const div = document.getElementById("resultado")
     div.className = "show"
     div.firstElementChild.innerHTML = prob
