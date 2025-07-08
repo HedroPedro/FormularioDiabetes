@@ -17,14 +17,19 @@
                 <div>
                     <h2>Informações Pessoais</h2>
                     <div>
-                        <h3>Idade</h3>
+                        <div id="nome-input-div">
+                            <h3>Nome</h3>
+                            <span class="error">Insira seu nome</span>
+                            <input type="text" name="nome">
+                        </div>
                         <div id="idade-input-div">
-                            <span class="error">Insira uma idade</span>
-                            <input type="number" value="0" min="0" id="idade">
+                            <h3>Idade</h3>
+                            <span class="error">Insira sua idade</span>
+                            <input type="number" min="0" id="idade">
                         </div>
                         <div id="sexo">
                             <h3>Sexo</h3>
-                                <span class="error">Selecione um sexo</span>
+                                <span class="error">Selecione seu sexo</span>
                                 Masculino <input type="radio" name="sexo">
                                 Feminino <input type="radio" name="sexo">
                         </div>

@@ -11,8 +11,27 @@ const score = {
     "sFam": -1
 }
 
+const persistObj = {
+    "nome": "",
+    "idade": 0,
+    "sexo": "",
+    "cintura": "",
+    "altura": 0,
+    "peso": 0,
+    "imc": 0,
+    "att_fisica": "",
+    "veg": "",
+    "carne": "",
+    "glic": "",
+    "pres": "",
+    "pFam": "",
+    "sFam": "",
+    "Pontuacao": "",
+    "Risco": ""
+}
+
 let slide = 0
-const spreadsheetId = "17FETyiGmSvzb4x_-YoRZfYfCpZYSYkpWLl8xw2JyzNM"
+const nomeInput = document.getElementsByName("nome")[0]
 const carrouselDiv = document.getElementById("carrossel")
 const cinturaDiv = document.getElementById("cintura")
 const idadeInput = document.getElementById("idade")
@@ -33,11 +52,16 @@ const imcDiv = document.getElementById("imc-div")
 const alturaInput = document.getElementById("alt")
 const pesoInput = document.getElementById("peso")
 
-function buildMessage(prob, risco) {
-    const div = document.getElementById("resultado")
-    div.className = "show"
-    div.firstElementChild.innerHTML = prob
-    div.children[1].innerHTML = risco
+function setVal(key, cmp) {
+    persistObj[key] = cmp(score[key])  ? "Sim" : "Não"
+}
+
+function isZero(val) {
+    return val === 0
+}
+
+function isNotZero(val) {
+    return val !== 0
 }
 
 btnGoBack.addEventListener("click", () => location.reload())
@@ -47,9 +71,11 @@ function setCintura(array) {
 
     for (let i = 0; i < btnsCint.length; i++) {
         const btn = btnsCint[i]
-        btn.textContent = array[i]
+        const val = array[i]
+        btn.textContent = val
         btn.addEventListener("click", () => {
             score["cintura"] = i === 0 ? 0 : i + 2
+            persistObj["cintura"] = val
         })
     }
 
@@ -69,6 +95,9 @@ function removeErrorMessage(el) {
 const checkInfoPerson = () => {
     let checked = false
     const isNotIdadeOkay = idadeInput.value == 0 || !idadeInput.value
+    const nomeError = nomeInput.value.trim() === ""
+
+    if (nomeInput.value === "") setErrorMessage(nomeInput.parentElement)
 
     if (isNotIdadeOkay) setErrorMessage(idadeInput.parentElement)
 
@@ -79,13 +108,13 @@ const checkInfoPerson = () => {
 
     if (score["cintura"] === -1 && "show" === cinturaDiv.className) setErrorMessage(cinturaDiv)
 
-    return isNotIdadeOkay || !checked || score["cintura"] === -1
+    return isNotIdadeOkay || !checked || score["cintura"] === -1 || nomeError
 }
 
 const checkOtherData = () => {
     const bool = isNotIMCOkay()
     
-    if (!bool && score["imc"] === -1) btnIMC.click()
+    if (!bool || score["imc"] === -1) btnIMC.click()
     
     return bool
 }
@@ -133,9 +162,16 @@ const checkGen = () => {
     return !(pFam && sFam)
 }
 
+nomeInput.addEventListener("input", (ev) => {
+    removeErrorMessage(ev.target.parentElement)
+    persistObj["nome"] = ev.target.value
+})
+
 idadeInput.addEventListener("input", (ev) => {
     const idade = ev.target.value
     removeErrorMessage(ev.target.parentElement)
+
+    persistObj["idade"] = idade
 
     if (idade < 45) {
         return
@@ -172,7 +208,9 @@ const cinturaObj = {
     0: ["Menos que 94 cm","Entre 94 e 101 cm", "Mais que 101 cm"],
     1: ["Menos que 80 cm","Entre 80 e 88 cm", "Mais que 88 cm"]}
 
-radioSex.forEach((el, k) => {el.addEventListener("click", () => setCintura(cinturaObj[k]))})
+radioSex.forEach((el, k) => el.addEventListener("click", () => {setCintura(cinturaObj[k])
+        persistObj["sexo"] = k === 0 ? "M" : "F"
+}))
 
 alturaInput.addEventListener("input", (ev) => removeErrorMessage(ev.target.parentElement))
 
@@ -183,10 +221,13 @@ btnIMC.addEventListener("click", () => {
 
     const altura = alturaInput.value/100
     const peso = pesoInput.value
-    
-    const imc = Math.round(peso/(altura*altura))
-    imcDiv.lastElementChild.innerHTML = imc.toString()
+    const imc = (peso/(altura*altura)).toFixed(2).replace(",", ".")
+    imcDiv.lastElementChild.innerHTML = imc
     imcDiv.className = "show"
+
+    persistObj["altura"] = altura
+    persistObj["peso"] = peso
+    persistObj["imc"] = imc
 
     if (imc < 25) {
         score.imc = 0
@@ -247,6 +288,9 @@ btnCalcular.addEventListener("click", () => {
     for (const key in score)
         soma += score[key]
 
+    persistObj["Pontuacao"] = soma
+
+
     if(soma < 7) {
         buildMessage("Risco Baixo", "Probabilidade 1 em 100")
         return  
@@ -271,9 +315,25 @@ btnCalcular.addEventListener("click", () => {
     buildMessage("Risco muito alto", "Probabilidade 1 em 2")
 })
 
+function buildMessage(prob, risco) {
+    persistObj["Risco"] = risco
+    fetch('https://script.google.com/macros/s/AKfycbyrRc3cxXpUWdvSGokxx9Dg6Oiwmf2XDsIKNJg37FCPZh3wRadz9xxKNOwtEgkabXmh/exec',{
+        "method": "POST",
+        "headers": {
+            "Content-Type" : "application/json"
+        },
+        "body": JSON.stringify(persistObj)
+    }).catch(err => console.error)
+    const div = document.getElementById("resultado")
+    div.className = "show"
+    div.firstElementChild.innerHTML = prob
+    div.children[1].innerHTML = risco
+}
+
 radioAttFisica.forEach((elem, key) => {
     elem.addEventListener("click", () => {
         score["att_fisica"] = key<<1
+        setVal("att_fisica", isZero)
         removeErrorMessage(elem.parentElement)
     })
 })
@@ -281,13 +341,15 @@ radioAttFisica.forEach((elem, key) => {
 radioVeg.forEach((elem, key) => {
     elem.addEventListener("click", () => {
         score["veg"] = key
+        setVal("veg", isZero)
         removeErrorMessage(elem.parentElement)
     })
 })
 
 radioCarn.forEach((elem, key) => {
     elem.addEventListener("click", () => {
-        score["carne"] = key
+        score["carne"] = key === 0 ? 1 : 0
+        setVal("carne", isNotZero)
         removeErrorMessage(elem.parentElement)
     })
 })
@@ -295,6 +357,7 @@ radioCarn.forEach((elem, key) => {
 radioGlic.forEach((elem, key) => {
     elem.addEventListener("click", () => {
         score["glic"] = key === 0 ? 5 : 0
+        setVal("glic", isNotZero)
         removeErrorMessage(elem.parentElement)
     })
 })
@@ -302,6 +365,7 @@ radioGlic.forEach((elem, key) => {
 radioPres.forEach((elem, key) => {
     elem.addEventListener("click", () => {
         score["pres"] = key === 0 ? 2 : 0
+        setVal("pres", isNotZero)
         removeErrorMessage(elem.parentElement)
     })
 })
@@ -309,6 +373,7 @@ radioPres.forEach((elem, key) => {
 radioPFam.forEach((elem, key) => {
     elem.addEventListener("click", () => {
         score["pFam"] = key === 0 ? 5 : 0
+        setVal("pFam", isNotZero)
         removeErrorMessage(elem.parentElement)
     })
 })
@@ -316,10 +381,7 @@ radioPFam.forEach((elem, key) => {
 radioSFam.forEach((elem, key) => {
     elem.addEventListener("click", () => {
         score["sFam"] = key === 0 ? 3 : 0
+        setVal("sFam", isNotZero)
         removeErrorMessage(elem.parentElement)
     })
 })
-
-fetch("https://sheets.googleapis.com/v4/spreadsheets/17FETyiGmSvzb4x_-YoRZfYfCpZYSYkpWLl8xw2JyzNM")
-    .then(res => res.json())
-    .then(resp => console.log(resp + "!"))
