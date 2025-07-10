@@ -12,7 +12,6 @@ const score = {
 }
 
 const persistObj = {
-    "nome": "",
     "idade": 0,
     "sexo": "",
     "cintura": "",
@@ -31,7 +30,6 @@ const persistObj = {
 }
 
 let slide = 0
-const nomeInput = document.getElementsByName("nome")[0]
 const carrouselDiv = document.getElementById("carrossel")
 const cinturaDiv = document.getElementById("cintura")
 const idadeInput = document.getElementById("idade")
@@ -95,9 +93,6 @@ function removeErrorMessage(el) {
 const checkInfoPerson = () => {
     let checked = false
     const isNotIdadeOkay = idadeInput.value == 0 || !idadeInput.value
-    const nomeError = nomeInput.value.trim() === ""
-
-    if (nomeInput.value === "") setErrorMessage(nomeInput.parentElement)
 
     if (isNotIdadeOkay) setErrorMessage(idadeInput.parentElement)
 
@@ -129,8 +124,6 @@ function checkHabits () {
     const eatCarn = Array.from(radioCarn.values())
     .reduce((prev, cur) => prev ||= cur.checked, false)
 
-
-
     if(!att) setErrorMessage(radioAttFisica[0].parentElement)
     
     if(!eatVegs) setErrorMessage(radioVeg[0].parentElement)
@@ -161,11 +154,6 @@ const checkGen = () => {
 
     return !(pFam && sFam)
 }
-
-nomeInput.addEventListener("input", (ev) => {
-    removeErrorMessage(ev.target.parentElement)
-    persistObj["nome"] = ev.target.value
-})
 
 idadeInput.addEventListener("input", (ev) => {
     const idade = ev.target.value

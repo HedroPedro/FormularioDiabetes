@@ -17,19 +17,14 @@
                 <div>
                     <h2>Informações Pessoais</h2>
                     <div>
-                        <div id="nome-input-div">
-                            <h3>Nome</h3>
-                            <span class="error">Insira seu nome</span>
-                            <input type="text" name="nome">
-                        </div>
                         <div id="idade-input-div">
                             <h3>Idade</h3>
                             <span class="error">Insira sua idade</span>
                             <input type="number" min="0" id="idade">
                         </div>
                         <div id="sexo">
-                            <h3>Sexo</h3>
-                                <span class="error">Selecione seu sexo</span>
+                            <h3>Qual o seu sexo atribuído ao nascer?</h3>
+                                <span class="error">Selecione o seu sexo atribuído ao nascer</span>
                                 Masculino <input type="radio" name="sexo">
                                 Feminino <input type="radio" name="sexo">
                         </div>
@@ -53,7 +48,7 @@
                     <div>
                         <h3>Peso em KG</h3>
                         <span class="error">Digite seu peso em KG</span>
-                        <input type="number" min="0" id="peso" pattern="[0-9]+(,[0-9]{1,2})?">
+                        <input type="number" min="0" id="peso" pattern="[0-9]+((,[0-9]{1,2})|(\.[0-9]{1,2}))?">
                     <input type="button" value="Calcular IMC" id="IMC">
                     </div>
                 </form>
