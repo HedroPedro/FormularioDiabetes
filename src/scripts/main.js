@@ -220,13 +220,13 @@ btnIMC.addEventListener("click", () => {
     if(isNotIMCOkay()) return
 
     const altura = alturaInput.value/100
-    const peso = pesoInput.value
-    const imc = (peso/(altura*altura)).toFixed(2).replace(",", ".")
+    const peso = Number(pesoInput.value.replace(",", "."))
+    const imc = (peso/(altura*altura)).toFixed(2).replace(".", ",")
     imcDiv.lastElementChild.innerHTML = imc
     imcDiv.className = "show"
 
-    persistObj["altura"] = altura
-    persistObj["peso"] = peso
+    persistObj["altura"] = altura.toFixed(2).replace(".", ",")
+    persistObj["peso"] = peso.toFixed(2)
     persistObj["imc"] = imc
 
     if (imc < 25) {
@@ -315,7 +315,7 @@ btnCalcular.addEventListener("click", () => {
     buildMessage("Risco muito alto", "Probabilidade 1 em 2")
 })
 
-function buildMessage(prob, risco) {
+function buildMessage(risco, prob) {
     persistObj["Risco"] = risco
     fetch('https://script.google.com/macros/s/AKfycbzjqRFlBlue0zVKpYqbYmDX4Vi7Ru3ElRvh_0JVm9gNwTRwXUug7Xg0Yh_K19J-aG8E/exec',{
         "method": "POST",
