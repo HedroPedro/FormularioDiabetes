@@ -103,7 +103,7 @@ const checkInfoPerson = () => {
 
     if (score["cintura"] === -1 && "show" === cinturaDiv.className) setErrorMessage(cinturaDiv)
 
-    return isNotIdadeOkay || !checked || score["cintura"] === -1 || nomeError
+    return isNotIdadeOkay || !checked || score["cintura"] === -1
 }
 
 const checkOtherData = () => {
@@ -305,7 +305,7 @@ btnCalcular.addEventListener("click", () => {
 
 function buildMessage(risco, prob) {
     persistObj["Risco"] = risco
-    fetch('https://script.google.com/macros/s/AKfycbzjqRFlBlue0zVKpYqbYmDX4Vi7Ru3ElRvh_0JVm9gNwTRwXUug7Xg0Yh_K19J-aG8E/exec',{
+    fetch('https://script.google.com/macros/s/AKfycbxx5kjRHhuyU-HJ0HJO_AN_u1LpDEsAjuKxngw4dbKHiMh396Oc7XonO8u3Fy8ElDZW/exec',{
         "method": "POST",
         "headers": {
             "Content-Type" : "text/plain;charset=utf-8'"
